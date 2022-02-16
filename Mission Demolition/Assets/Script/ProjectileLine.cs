@@ -64,7 +64,7 @@ public class ProjectileLine : MonoBehaviour
         }// end if
         if (points.Count == 0)
         {
-            Vector3 launchPosDiff = pt - SlingShot.LAUNCH_POI;//to be defined
+            Vector3 launchPosDiff = pt - SlingShot.LAUNCH_POS;//to be defined
             points.Add(pt + launchPosDiff);
             points.Add(pt);
             line.positionCount = 2;
@@ -82,7 +82,7 @@ public class ProjectileLine : MonoBehaviour
         }//end else
     }//end addpoint
 
-    public Vector3 lastPoint()
+    public Vector3 lastPoint
     {
         get
         {
@@ -94,6 +94,34 @@ public class ProjectileLine : MonoBehaviour
         }//end get
     }
     // Start is called before the first frame update
+
+    void FixedUpdate()
+    {
+       if (poi == null)
+        {
+            if (FollowCam.POI != null)
+            {
+                if (FollowCam.POI.tag == "Projectile")
+                {
+                    poi = FollowCam.POI;
+                }
+                else
+                {
+                    return;//return if we didn't find a poi
+                }//end else
+            }//end if
+            else
+            {
+                return;//return if we didn't find a poi
+            }
+        } //end if
+
+        AddPoint();
+        if (FollowCam.POI == null)
+        {
+            poi = null;
+        }
+    }//end fixedUpdate
     void Start()
     {
         
